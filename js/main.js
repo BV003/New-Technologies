@@ -1,84 +1,76 @@
 const filtersEl = document.getElementById("filters");
 const cardsEl = document.getElementById("cards");
-const emptyEl = document.getElementById("empty");
-
+const timelineEl = document.getElementById("timeline");
 let activeCategory = "全部";
 
-function getCategories() {
-  const set = new Set(TECH.map((t) => t.category));
-  return ["全部", ...set];
+function makeLink(url, label) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = `${label} ↗`;
+  return link;
 }
 
 function renderFilters() {
-  const categories = getCategories();
-  filtersEl.innerHTML = "";
-  categories.forEach((cat) => {
-    const btn = document.createElement("button");
-    btn.className = "filter-btn" + (cat === activeCategory ? " active" : "");
-    btn.textContent = cat;
-    btn.addEventListener("click", () => {
-      activeCategory = cat;
+  const categories = ["全部", ...new Set(TECH.map((item) => item.category))];
+  filtersEl.replaceChildren();
+  categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = category;
+    button.className = category === activeCategory ? "active" : "";
+    button.setAttribute("aria-pressed", category === activeCategory);
+    button.addEventListener("click", () => {
+      activeCategory = category;
       renderFilters();
       renderCards();
     });
-    filtersEl.appendChild(btn);
+    filtersEl.appendChild(button);
   });
 }
 
 function renderCards() {
-  const items =
-    activeCategory === "全部"
-      ? TECH
-      : TECH.filter((t) => t.category === activeCategory);
+  const items = activeCategory === "全部" ? TECH : TECH.filter((item) => item.category === activeCategory);
+  cardsEl.replaceChildren();
+  items.forEach((item, index) => {
+    const article = document.createElement("article");
+    const number = document.createElement("p");
+    number.className = "number";
+    number.textContent = String(index + 1).padStart(2, "0");
 
-  cardsEl.innerHTML = "";
-  emptyEl.hidden = items.length > 0;
-
-  items.forEach((t) => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const head = document.createElement("div");
-    head.className = "card-head";
-
-    const title = document.createElement("h2");
-    title.className = "card-title";
-    title.textContent = t.name;
-
-    const badge = document.createElement("span");
-    badge.className = "badge";
-    badge.textContent = t.category;
-
-    head.appendChild(title);
-    head.appendChild(badge);
-
+    const content = document.createElement("div");
+    content.className = "item-content";
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    meta.textContent = `${item.category} · ${item.date}`;
+    const title = document.createElement("h3");
+    title.textContent = item.name;
     const desc = document.createElement("p");
-    desc.className = "card-desc";
-    desc.textContent = t.desc;
+    desc.className = "desc";
+    desc.textContent = item.desc;
+    const impact = document.createElement("p");
+    impact.className = "impact";
+    impact.textContent = item.impact;
+    content.append(meta, title, desc, impact);
+    article.append(number, content, makeLink(item.url, item.source));
+    cardsEl.appendChild(article);
+  });
+}
 
-    card.appendChild(head);
-    card.appendChild(desc);
-
-    if (t.impact) {
-      const impact = document.createElement("p");
-      impact.className = "card-desc";
-      impact.textContent = "影响：" + t.impact;
-      card.appendChild(impact);
-    }
-
-    if (t.url) {
-      const link = document.createElement("a");
-      link.className = "card-link";
-      link.href = t.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = t.url;
-      card.appendChild(link);
-    }
-
-    cardsEl.appendChild(card);
+function renderHistory() {
+  timelineEl.replaceChildren();
+  HISTORY.forEach((item) => {
+    const article = document.createElement("article");
+    const year = document.createElement("strong");
+    year.textContent = item.year;
+    const name = document.createElement("span");
+    name.textContent = item.name;
+    article.append(year, name, makeLink(item.url, "资料"));
+    timelineEl.appendChild(article);
   });
 }
 
 renderFilters();
 renderCards();
+renderHistory();

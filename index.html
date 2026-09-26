@@ -1,32 +1,76 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>New — 可能产生重大影响的新科技</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <h1 class="logo">New</h1>
-      <p class="tagline">追踪可能产生重大影响的新科技</p>
-    </div>
-  </header>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="New Technologies — a timeline of technologies that may matter." />
+    <meta name="theme-color" content="#075cff" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23075cff'/%3E%3Cpath d='M15 15h34v10H37v25H27V25H15z' fill='white'/%3E%3C/svg%3E" />
+    <title>New Technologies</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <span class="mark" aria-hidden="true">T</span>
+      <span>New Technologies</span>
+    </header>
 
-  <main class="container">
-    <nav class="filters" id="filters" aria-label="分类筛选"></nav>
-    <section class="cards" id="cards" aria-live="polite"></section>
-    <p class="empty" id="empty" hidden>暂无内容，敬请期待。</p>
-  </main>
+    <main>
+      <div class="timeline-heading">
+        <h1>Timeline</h1>
+      </div>
+      <div class="timeline-frame">
+        <button type="button" class="timeline-button previous" aria-label="Move one year earlier">←</button>
+        <div class="timeline-scroll">
+          <div class="timeline" aria-label="Technology timeline from 2022 to 2052, divided by month">
+            <div class="scale" aria-hidden="true"></div>
+            <span class="line" aria-hidden="true"></span>
+            <details class="chatgpt-event">
+              <summary><span class="dot" aria-hidden="true"></span><span class="name">ChatGPT <small>Nov 2022</small></span></summary>
+              <div class="info"><p>OpenAI released ChatGPT as a research preview, bringing conversational language models to a broad public audience.</p><a href="https://openai.com/index/chatgpt/" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
+            </details>
+            <details class="claude-event">
+              <summary><span class="dot" aria-hidden="true"></span><span class="name">Claude Code <small>Feb 2025</small></span></summary>
+              <div class="info"><p>Anthropic introduced Claude Code as a command-line tool for agentic coding, initially released as a limited research preview.</p><a href="https://www.anthropic.com/news/claude-3-7-sonnet" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
+            </details>
+          </div>
+        </div>
+        <button type="button" class="timeline-button next" aria-label="Move one year later">→</button>
+      </div>
+    </main>
+    <script>
+      const startYear = 2022;
+      const endYear = 2052;
+      const yearWidth = 360;
+      const monthWidth = yearWidth / 12;
+      const monthNames = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+      const scale = document.querySelector(".scale");
+      const track = document.querySelector(".timeline");
+      const scroller = document.querySelector(".timeline-scroll");
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>New — 记录那些可能改变世界的技术</p>
-    </div>
-  </footer>
+      for (let year = startYear; year <= endYear; year += 1) {
+        const block = document.createElement("div");
+        block.className = "year-block";
+        block.innerHTML = `<strong>${year}</strong><div>${monthNames.map((month) => `<span>${month}</span>`).join("")}</div>`;
+        scale.appendChild(block);
+      }
 
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body>
+      track.style.width = `${(endYear - startYear + 1) * yearWidth}px`;
+      const positionEvent = (selector, year, month) => {
+        const position = (year - startYear) * yearWidth + (month - 0.5) * monthWidth;
+        document.querySelector(selector).style.left = `${position}px`;
+        return position;
+      };
+
+      positionEvent(".chatgpt-event", 2022, 11);
+      const claudePosition = positionEvent(".claude-event", 2025, 2);
+      scroller.scrollLeft = claudePosition - scroller.clientWidth * 0.72;
+      document.querySelector(".previous").addEventListener("click", () => {
+        scroller.scrollBy({ left: -yearWidth, behavior: "smooth" });
+      });
+      document.querySelector(".next").addEventListener("click", () => {
+        scroller.scrollBy({ left: yearWidth, behavior: "smooth" });
+      });
+    </script>
+  </body>
 </html>
