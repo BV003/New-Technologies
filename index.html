@@ -33,6 +33,10 @@
               <summary><span class="dot" aria-hidden="true"></span><span class="name">Claude Code <small>Feb 2025</small></span></summary>
               <div class="info"><p>Anthropic introduced Claude Code as a command-line tool for agentic coding, initially released as a limited research preview.</p><a href="https://www.anthropic.com/news/claude-3-7-sonnet" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
             </details>
+            <details class="grok-event">
+              <summary><span class="dot" aria-hidden="true"></span><span class="name">Grok Bot <small>Aug 2026</small></span></summary>
+              <div class="info"><p>xAI introduced Grok Bot, always-on AI teammates that run on their own cloud computers, sign in to your tools and deliver finished multi-step work.</p><a href="https://x.ai/news/introducing-grok-bot" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
+            </details>
           </div>
         </div>
         <button type="button" class="timeline-button next" aria-label="Move one year later">→</button>
@@ -64,6 +68,7 @@
 
       positionEvent(".chatgpt-event", 2022, 11);
       const claudePosition = positionEvent(".claude-event", 2025, 2);
+      positionEvent(".grok-event", 2026, 8);
       scroller.scrollLeft = claudePosition - scroller.clientWidth * 0.72;
       document.querySelector(".previous").addEventListener("click", () => {
         scroller.scrollBy({ left: -yearWidth, behavior: "smooth" });
