@@ -29,6 +29,10 @@
               <summary><span class="dot" aria-hidden="true"></span><span class="name">ChatGPT <small>Nov 2022</small></span></summary>
               <div class="info"><p>OpenAI released ChatGPT as a research preview, bringing conversational language models to a broad public audience.</p><a href="https://openai.com/index/chatgpt/" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
             </details>
+            <details class="browser-use-event">
+              <summary><span class="dot" aria-hidden="true"></span><span class="name">Browser Use <small>Nov 2024</small></span></summary>
+              <div class="info"><p>An open-source (MIT) Python library from two ETH Zurich students that lets any LLM control a real web browser — clicking, typing and completing multi-step tasks — making computer-use agents available to everyone.</p><a href="https://github.com/browser-use/browser-use" target="_blank" rel="noopener noreferrer">View the project on GitHub ↗</a></div>
+            </details>
             <details class="claude-event">
               <summary><span class="dot" aria-hidden="true"></span><span class="name">Claude Code <small>Feb 2025</small></span></summary>
               <div class="info"><p>Anthropic introduced Claude Code as a command-line tool for agentic coding, initially released as a limited research preview.</p><a href="https://www.anthropic.com/news/claude-3-7-sonnet" target="_blank" rel="noopener noreferrer">Read the original announcement ↗</a></div>
@@ -63,6 +67,7 @@
       };
 
       positionEvent(".chatgpt-event", 2022, 11);
+      positionEvent(".browser-use-event", 2024, 11);
       const claudePosition = positionEvent(".claude-event", 2025, 2);
       scroller.scrollLeft = claudePosition - scroller.clientWidth * 0.72;
       document.querySelector(".previous").addEventListener("click", () => {
