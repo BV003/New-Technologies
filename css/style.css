@@ -25,14 +25,16 @@ h1 { margin:0; font-size:32px; letter-spacing:-.04em; font-weight:600; }
 .line::before,.line::after { content:""; position:absolute; top:-3px; width:7px; height:7px; border-radius:50%; background:var(--line); }
 .line::before { left:0; }
 .line::after { right:0; }
-details { position:absolute; top:58px; width:300px; transform:translateX(-50%); }
-summary { position:relative; display:grid; grid-template-rows:42px 30px; justify-items:center; width:100px; margin-inline:auto; cursor:pointer; list-style:none; user-select:none; }
+/* The 300px wrapper is wider than the gap between nearby entries, so it must not catch clicks itself. */
+details { position:absolute; top:58px; width:300px; transform:translateX(-50%); pointer-events:none; }
+details[open] { z-index:3; }
+summary { position:relative; display:grid; grid-template-rows:42px 30px; justify-items:center; width:max-content; margin-inline:auto; cursor:pointer; list-style:none; user-select:none; pointer-events:auto; }
 summary::-webkit-details-marker { display:none; }
 .dot { align-self:center; width:13px; height:13px; border:3px solid var(--paper); border-radius:50%; background:var(--blue); box-shadow:0 0 0 1px var(--blue); transition:transform .18s ease; }
 summary:hover .dot, details[open] .dot { transform:scale(1.35); }
 .name { font-size:15px; font-weight:600; white-space:nowrap; }
 .name small { display:block; margin-top:3px; color:var(--muted); font:700 9px/1.2 "Space Mono",monospace; }
-.info { margin-top:24px; padding:22px; border-left:2px solid var(--blue); background:#fff; box-shadow:0 8px 30px rgba(24,40,72,.06); }
+.info { margin-top:24px; padding:22px; border-left:2px solid var(--blue); background:#fff; box-shadow:0 8px 30px rgba(24,40,72,.06); pointer-events:auto; }
 .info p { margin:0; color:var(--muted); font-size:15px; line-height:1.7; }
 .info a { display:inline-block; margin-top:18px; color:var(--blue); font-size:13px; font-weight:600; text-decoration:none; }
 .info a:hover { text-decoration:underline; }
